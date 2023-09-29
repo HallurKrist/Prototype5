@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &115823698
 RectTransform:
   m_ObjectHideFlags: 0
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b34ca9f053a3a4eb444956941fde81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: 
+  sceneName: MenuScene
   menuObjects: []
   UItag: UI Element
   startFadeButtons: 0
@@ -952,7 +952,8 @@ MonoBehaviour:
   playerMove: 0
   moveSpeed: 2
   playerPos: 0
-  fadestartPoint: 0
+  fadestartPoint: -5
+  fadePanel: {fileID: 115823697}
 --- !u!1 &1771171586
 GameObject:
   m_ObjectHideFlags: 0
