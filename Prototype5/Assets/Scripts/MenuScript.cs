@@ -19,18 +19,39 @@ public class MenuScript : MonoBehaviour
     public float playerPos;
     public int fadestartPoint = -6;
     public GameObject fadePanel;
+    public TextAsset dialogue;
+    public TextMeshProUGUI dialogueTextBox;
+    public List<string> DialogueLines;
+    public int timesWon = 0;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        timesWon = PlayerPrefs.GetInt("timesWonLifetime");
 
         
+
+        var content = dialogue.text;
+        var AllWords = content.Split("/n");
+        DialogueLines = new List<string>(AllWords);
+
         foreach (GameObject UIelement in GameObject.FindGameObjectsWithTag(UItag)) menuObjects.Add(UIelement);
 
         Debug.Log(menuObjects);
+
         
-        
+
+        if(timesWon >= 1) { 
+        for(int i = 1; i < DialogueLines.Count - 1; i++)
+        {
+                Debug.Log(DialogueLines[i]);
+                dialogueTextBox.text = DialogueLines[i];
+        }
+        }
+        else dialogueTextBox.text = DialogueLines[0];
+        Debug.Log(dialogueTextBox.text + "THIS BITCH EMPTY");
+
 
 
     }
@@ -38,6 +59,7 @@ public class MenuScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if(startFadeButtons == true) { 
         foreach(GameObject UIelement in menuObjects)
         {
@@ -68,8 +90,11 @@ public class MenuScript : MonoBehaviour
         {
             Debug.Log("fade away wowowowoow");
             SceneManager.LoadScene(sceneName);
+            timesWon = timesWon + 1;
+            PlayerPrefs.SetInt("timesWonLifetime", timesWon);
         }
-        Debug.Log(fadePanelAlpha);
+        
+
     }
     public void StartGamePress() {
 
