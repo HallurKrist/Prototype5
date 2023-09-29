@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public class Player : MonoBehaviour
+using MushroomGame;
+public class Player : Agent
 {
     public InputAction playerMovement;
-    public InputAction playerJump;
+    public InputAction playerAttack;
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     public PlayerGroundCollision playerGroundCollision;
+    
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerMovement.Enable();
-        playerJump.Enable();
+        playerAttack.Enable();
     }
 
     private void Update()
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        
+        Attack();
     }
 
     private void Move()
@@ -46,11 +47,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        playerJump.Disable();
-        playerMovement.Disable();
+    private void Attack() {
+        if (playerAttack.triggered) {
+            Debug.Log("Attack");
+        }
     }
 
-    
+    private void OnDisable()
+    {
+        playerMovement.Disable();
+        playerAttack.Disable();
+    }
 }
