@@ -2,28 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MushroomGame {
-public class Agent: MonoBehaviour
+namespace MushroomGame
 {
-    [SerializeField]
-    protected int health;
-    [SerializeField]
-    protected int damage;
+    public class Agent : MonoBehaviour
+    {
+        [SerializeField]
+        protected int health;
+        [SerializeField]
+        protected int damage;
 
-    public void TakeDamage(int damage) {
-        health -= damage;
-        if (health <= 0) {
-            Destroy(this.gameObject);
+        virtual public void TakeDamage(int damage)
+        {
+            health -= damage;
+            Debug.Log("Agent taking damage. Health remaining: " + health);
+        }
+
+        public int GetHealth()
+        {
+            return health;
+        }
+
+        public int GetDamage()
+        {
+            return damage;
         }
     }
-
-    public int GetHealth() {
-        return health;
-    }
-
-    public int GetDamage() {
-        return damage;
-    }
-}
-
 }
