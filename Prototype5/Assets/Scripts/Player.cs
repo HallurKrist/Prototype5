@@ -8,7 +8,10 @@ public class Player : Agent
     public float moveSpeed = 5f;
     public float jumpForce = 5f;
     public PlayerGroundCollision playerGroundCollision;
-    
+    private Animator animator;
+    private Transform playerTransform;
+    private bool isFacingRight = true;
+
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -18,11 +21,14 @@ public class Player : Agent
         rb = GetComponent<Rigidbody2D>();
         playerMovement.Enable();
         playerAttack.Enable();
+        animator = GetComponent<Animator>();
+        playerTransform = GetComponent<Transform>();
     }
 
     private void Update()
     {
         moveInput = playerMovement.ReadValue<Vector2>();
+
     }
 
     private void FixedUpdate()
@@ -35,6 +41,19 @@ public class Player : Agent
     {
         Vector2 velocity = moveInput * moveSpeed;
 
+        if(moveInput.x != 0) {
+            isFacingRight = moveInput.x > 0;
+        }        
+
+        if (isFacingRight)
+        {
+            playerTransform.localScale = new Vector3(Mathf.Abs(playerTransform.localScale.x), playerTransform.localScale.y, playerTransform.localScale.z);
+        }
+        else
+        {
+            playerTransform.localScale = new Vector3(-Mathf.Abs(playerTransform.localScale.x), playerTransform.localScale.y, playerTransform.localScale.z);
+        }
+
         rb.velocity = new Vector2(velocity.x, rb.velocity.y);
 
         if (moveInput.y > 0 && playerGroundCollision.GetIsGrounded())
@@ -44,11 +63,16 @@ public class Player : Agent
         else
         {
             rb.velocity -= new Vector2(0, 1f);
+
         }
+           
+        animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
     }
 
-    private void Attack() {
-        if (playerAttack.triggered) {
+    private void Attack()
+    {
+        if (playerAttack.triggered)
+        {
             Debug.Log("Attack");
         }
     }
