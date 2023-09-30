@@ -11,6 +11,7 @@ public class Agent: MonoBehaviour
     protected int damage;
 
     public void TakeDamage(int damage) {
+        Debug.Log("Taking damage");
         health -= damage;
         if (health <= 0) {
             Destroy(this.gameObject);

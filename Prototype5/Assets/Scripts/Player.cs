@@ -17,6 +17,8 @@ public class Player : Agent
     public float attackDelayInSeconds = 1.5f;
     public float durationOfAttackAnimationInSeconds = 1f;
     private bool isAttacking = false;
+    [SerializeField]
+    GameObject attackHitbox;
 
 
     private Rigidbody2D rb;
@@ -80,12 +82,15 @@ public class Player : Agent
         if (playerAttack.triggered && !animator.GetBool("isAttacking"))
         {
             isAttacking = true;
-            StartCoroutine(AttackDelay());
+            StartCoroutine(AnimationAttackDelay());
         }
         animator.SetBool("isAttacking", isAttacking);
+        if(attackHitbox != null) {
+            attackHitbox.SetActive(animator.GetBool("isAttacking"));
+        }
     }
 
-    IEnumerator AttackDelay()
+    IEnumerator AnimationAttackDelay()
     {
         yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
         isAttacking = false;
