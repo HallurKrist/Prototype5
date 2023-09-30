@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using MushroomGame;
+using System.Collections;
+
+
 public class Player : Agent
 {
     public InputAction playerMovement;
@@ -11,6 +14,9 @@ public class Player : Agent
     private Animator animator;
     private Transform playerTransform;
     private bool isFacingRight = true;
+    public float attackDelayInSeconds = 1.5f;
+    public float durationOfAttackAnimationInSeconds = 1f;
+    private bool isAttacking = false;
 
 
     private Rigidbody2D rb;
@@ -28,13 +34,13 @@ public class Player : Agent
     private void Update()
     {
         moveInput = playerMovement.ReadValue<Vector2>();
-
+        Attack();
     }
+    
 
     private void FixedUpdate()
     {
         Move();
-        Attack();
     }
 
     private void Move()
@@ -71,10 +77,18 @@ public class Player : Agent
 
     private void Attack()
     {
-        if (playerAttack.triggered)
+        if (playerAttack.triggered && !animator.GetBool("isAttacking"))
         {
-            Debug.Log("Attack");
+            isAttacking = true;
+            StartCoroutine(AttackDelay());
         }
+        animator.SetBool("isAttacking", isAttacking);
+    }
+
+    IEnumerator AttackDelay()
+    {
+        yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
+        isAttacking = false;
     }
 
     private void OnDisable()
