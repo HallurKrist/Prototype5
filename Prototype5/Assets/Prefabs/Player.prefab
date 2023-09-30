@@ -47,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 365b6063480ae4fa89a1c2cd7f24277c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  damage: 0
   playerMovement:
     m_Name: Player Movement
     m_Type: 0
@@ -96,26 +98,22 @@ MonoBehaviour:
       m_Action: Player Movement
       m_Flags: 8
     m_Flags: 0
-  playerJump:
-    m_Name: Player Jump
+  playerAttack:
+    m_Name: Player Attack
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: cb90945f-bd77-411a-9208-f4c485a9afc0
+    m_Id: 2ef0f2e7-c661-4780-8ac3-7321a920ed1a
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: bf5d18bb-b118-4f12-94ec-47ffcfc1769e
-      m_Path: <Keyboard>/w
-      m_Interactions: Press
-      m_Processors: 
-      m_Groups: 
-      m_Action: Player Jump
-      m_Flags: 0
+    m_SingletonActionBindings: []
     m_Flags: 0
   moveSpeed: 5
   jumpForce: 5
   playerGroundCollision: {fileID: 5901377461900195182}
+  attackDelayInSeconds: 1.5
+  durationOfAttackAnimationInSeconds: 1
+  attackHitbox: {fileID: 0}
+  isDead: 0
 --- !u!212 &5901377461691081317
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -165,7 +163,7 @@ SpriteRenderer:
   m_Size: {x: 0.34, y: 0.34}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &5901377461691081322

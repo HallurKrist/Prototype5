@@ -20,6 +20,7 @@ public class Player : Agent
     [SerializeField]
     GameObject attackHitbox;
 
+    public   bool isDead = false;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -35,23 +36,37 @@ public class Player : Agent
 
     private void Update()
     {
-        moveInput = playerMovement.ReadValue<Vector2>();
-        Attack();
+        if (isDead && !animator.GetBool("dead"))
+        {
+            PlayDeathAnimation();
+        }
+        else
+        {
+            moveInput = playerMovement.ReadValue<Vector2>();
+            Attack();
+        }
     }
-    
+
+    private void PlayDeathAnimation()
+    {
+        animator.SetBool("dead", true);
+    }
+
 
     private void FixedUpdate()
     {
-        Move();
+        if (!isDead)
+            Move();
     }
 
     private void Move()
     {
         Vector2 velocity = moveInput * moveSpeed;
 
-        if(moveInput.x != 0) {
+        if (moveInput.x != 0)
+        {
             isFacingRight = moveInput.x > 0;
-        }        
+        }
 
         if (isFacingRight)
         {
@@ -73,7 +88,7 @@ public class Player : Agent
             rb.velocity -= new Vector2(0, 1f);
 
         }
-           
+
         animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
     }
 
@@ -85,7 +100,8 @@ public class Player : Agent
             StartCoroutine(AnimationAttackDelay());
         }
         animator.SetBool("isAttacking", isAttacking);
-        if(attackHitbox != null) {
+        if (attackHitbox != null)
+        {
             attackHitbox.SetActive(animator.GetBool("isAttacking"));
         }
     }
@@ -100,5 +116,22 @@ public class Player : Agent
     {
         playerMovement.Disable();
         playerAttack.Disable();
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "enemy")
+        {
+            TakeDamage(collision.gameObject.GetComponent<Agent>().GetDamage());
+        }
+    }   
+
+    override public void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        if (GetHealth() <= 0)
+        {
+            isDead = true;
+        }
     }
 }
