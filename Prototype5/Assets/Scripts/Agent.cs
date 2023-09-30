@@ -14,7 +14,7 @@ namespace MushroomGame
         virtual public void TakeDamage(int damage)
         {
             health -= damage;
-            Debug.Log("Agent taking damage. Health remaining: " + health);
+            Debug.Log("Damage taken: " + damage);
         }
 
         public int GetHealth()
