@@ -14,7 +14,7 @@ public class Enemy : Agent
     private Animator animator;
     private Transform playerTransform;
     [SerializeField]
-    private bool isFacingRight = false;
+    private bool isFacingLeft = true;
     public float attackDelayInSeconds = 1.5f;
     public float durationOfAttackAnimationInSeconds = 2f;
     private bool isAttacking = false;
@@ -80,7 +80,7 @@ public class Enemy : Agent
             isFacingRight = moveInput.x > 0;
         } */
 
-        if (isFacingRight)
+        if (isFacingLeft)
         {
             playerTransform.localScale = new Vector3(Mathf.Abs(playerTransform.localScale.x), playerTransform.localScale.y, playerTransform.localScale.z);
         }
@@ -114,13 +114,14 @@ public class Enemy : Agent
             StartCoroutine(AnimationAttackDelay());
         } */
 
-        Debug.Log("Enemy attacking");
+
 
         isAttacking = true;
+        StartCoroutine(AnimationAttackDelay());
         animator.SetBool("isAttacking", isAttacking);
+        Debug.Log("Animator: isAttacking == true");
         if (attackHitbox != null)
         {
-            Debug.Log("hitbox is available");
             attackHitbox.SetActive(animator.GetBool("isAttacking"));
         }
     }
@@ -140,6 +141,8 @@ public class Enemy : Agent
     {
         yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
         isAttacking = false;
+        animator.SetBool("isAttacking", isAttacking);
+        Debug.Log("Animator: isAttacking == false");
     }
 
     /* private void OnDisable()

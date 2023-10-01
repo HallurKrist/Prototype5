@@ -243,8 +243,8 @@ Transform:
   m_GameObject: {fileID: 305862695}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.427, y: -0.0234, z: -0.071952}
-  m_LocalScale: {x: 0.69962996, y: 0.47194695, z: 4.364816}
+  m_LocalPosition: {x: 0.987, y: -0.227, z: -0.071952}
+  m_LocalScale: {x: 3.3932052, y: 0.47194695, z: 4.364816}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1560487111}
@@ -555,8 +555,8 @@ Transform:
   m_GameObject: {fileID: 1381824707}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0078, y: -0.0716, z: -0.009603232}
-  m_LocalScale: {x: 0.7131797, y: 0.2078484, z: 0.58255976}
+  m_LocalPosition: {x: -0.039438, y: -0.49221, z: -0.009603232}
+  m_LocalScale: {x: 4.1275277, y: 0.18706356, z: 0.58255976}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1560487111}
@@ -677,7 +677,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 5
   playerGroundCollision: {fileID: 1381824711}
-  isFacingRight: 0
+  isFacingLeft: 1
   attackDelayInSeconds: 1.5
   durationOfAttackAnimationInSeconds: 1
   attackHitbox: {fileID: 305862695}
@@ -719,14 +719,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.34, y: 0.34}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.10541609, y: 0.111837715}
+  m_Size: {x: 0.7, y: 0.9}
   m_EdgeRadius: 0
 --- !u!50 &1560487109
 Rigidbody2D:
@@ -796,7 +796,7 @@ SpriteRenderer:
   m_SortingLayerID: 224054083
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -280912860, guid: 1bc57265db59041d099c058e0701c8cd, type: 3}
+  m_Sprite: {fileID: 1794872755, guid: 64fcd7b974e9e2048a0bff8b221238d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -817,7 +817,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.102, y: -2.901, z: 0.071952}
-  m_LocalScale: {x: 6.2387495, y: 19.14536, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1381824708}
@@ -832,9 +832,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560487106}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bd75f66e9e98f4f4a8b54edfb10742e8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 44c2147b0b440094aaf5d87981b57564, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -858,6 +858,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2179248324648669560, guid: 8287cd405108f436a8630eb6d0670d86, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 10.378
+      objectReference: {fileID: 0}
     - target: {fileID: 2179248326004350169, guid: 8287cd405108f436a8630eb6d0670d86, type: 3}
       propertyPath: m_Name
       value: Grid
