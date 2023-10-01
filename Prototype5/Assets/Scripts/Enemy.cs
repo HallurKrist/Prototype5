@@ -119,7 +119,6 @@ public class Enemy : Agent
         isAttacking = true;
         StartCoroutine(AnimationAttackDelay());
         animator.SetBool("isAttacking", isAttacking);
-        Debug.Log("Animator: isAttacking == true");
         if (attackHitbox != null)
         {
             attackHitbox.SetActive(animator.GetBool("isAttacking"));
@@ -142,7 +141,6 @@ public class Enemy : Agent
         yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
         isAttacking = false;
         animator.SetBool("isAttacking", isAttacking);
-        Debug.Log("Animator: isAttacking == false");
     }
 
     /* private void OnDisable()

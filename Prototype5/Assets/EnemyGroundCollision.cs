@@ -17,8 +17,6 @@ public class EnemyGroundCollision : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        Debug.Log("Collision ground");
         if (((1 << collision.gameObject.layer) & groundLayer) != 0)
         {
             isGrounded = true;
