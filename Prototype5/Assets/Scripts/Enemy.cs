@@ -32,6 +32,7 @@ public class Enemy : Agent
     private float timeRemaining;
     private bool timerIsRunning = true;
     public float durationOfFadingAnimationInSeconds = 1f;
+    public float durationOfDeathAnimationInSeconds = 1f;
 
     private void Start()
     {
@@ -41,7 +42,7 @@ public class Enemy : Agent
         animator = GetComponent<Animator>();
         playerTransform = GetComponent<Transform>();
 
-        timeRemaining = 10;
+        timeRemaining = 60;
     }
 
     private void Update()
@@ -65,6 +66,8 @@ public class Enemy : Agent
     private void PlayDeathAnimation()
     {
         animator.SetBool("isDead", true);
+        Debug.Log("gonna call animation delay");
+        StartCoroutine(AnimationDeathDelay());
     }
 
 
@@ -141,13 +144,14 @@ public class Enemy : Agent
         } */
 
 
-
-        isAttacking = true;
-        StartCoroutine(AnimationAttackDelay());
-        animator.SetBool("isAttacking", isAttacking);
-        if (attackHitbox != null)
+        if (isAttacking) 
         {
-            attackHitbox.SetActive(animator.GetBool("isAttacking"));
+            StartCoroutine(AnimationAttackDelay());
+            animator.SetBool("isAttacking", isAttacking);
+            if (attackHitbox != null)
+            {
+                attackHitbox.SetActive(animator.GetBool("isAttacking"));
+            }
         }
     }
 
@@ -155,11 +159,23 @@ public class Enemy : Agent
     {
         if (!attackWaiting) 
         {
+            isAttacking = true;
             attackWaiting = true;
             yield return new WaitForSeconds(delayBetweenAttacks);
             attackWaiting = false;
             Attack();
         }
+    }
+
+    IEnumerator AnimationDeathDelay()
+    {
+        Debug.Log("in animation delay");
+        yield return new WaitForSeconds(durationOfDeathAnimationInSeconds);
+        Debug.Log("done waiting");
+        animator.SetBool("isDead", false);
+        Debug.Log("Change to endScreen");
+        timerIsRunning = false;
+        SceneManager.LoadScene (sceneName:"EndScreen");
     }
 
     IEnumerator AnimationAttackDelay()
@@ -195,6 +211,7 @@ public class Enemy : Agent
         if (GetHealth() <= 0)
         {
             isDead = true;
+            isAttacking = false;
         }
     }
 }
