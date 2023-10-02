@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using MushroomGame;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public class Enemy : Agent
@@ -28,6 +29,9 @@ public class Enemy : Agent
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
+    private float timeRemaining;
+    private bool timerIsRunning = true;
+    public float durationOfFadingAnimationInSeconds = 1f;
 
     private void Start()
     {
@@ -36,10 +40,13 @@ public class Enemy : Agent
         playerAttack.Enable();
         animator = GetComponent<Animator>();
         playerTransform = GetComponent<Transform>();
+
+        timeRemaining = 10;
     }
 
     private void Update()
     {
+        Fade();
         if (GetHealth() <= 0)
         {
             isDead = true;
@@ -65,6 +72,25 @@ public class Enemy : Agent
     {
         if (!isDead)
             Move();
+    }
+
+    private void Fade()
+    {
+        if (timerIsRunning)
+        {
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Time has run out!");
+                timeRemaining = 0;
+                timerIsRunning = false;
+                StartCoroutine(AnimationFadingDelay());
+                animator.SetBool("isFading", true);
+            }
+        }
     }
 
     private void Move()
@@ -138,9 +164,15 @@ public class Enemy : Agent
 
     IEnumerator AnimationAttackDelay()
     {
-        yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
+        yield return new WaitForSeconds(durationOfFadingAnimationInSeconds);
         isAttacking = false;
         animator.SetBool("isAttacking", isAttacking);
+    }
+
+    IEnumerator AnimationFadingDelay()
+    {
+        yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
+        SceneManager.LoadScene (sceneName:"StartScreen");
     }
 
     /* private void OnDisable()
