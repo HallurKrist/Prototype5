@@ -45,7 +45,7 @@ public class Enemy : Agent
             isDead = true;
         }
 
-        if (isDead && !animator.GetBool("dead"))
+        if (isDead && !animator.GetBool("isDead"))
         {
             PlayDeathAnimation();
         }
@@ -57,7 +57,7 @@ public class Enemy : Agent
 
     private void PlayDeathAnimation()
     {
-        animator.SetBool("dead", true);
+        animator.SetBool("isDead", true);
     }
 
 
@@ -155,7 +155,7 @@ public class Enemy : Agent
         {
             TakeDamage(collision.gameObject.GetComponent<Agent>().GetDamage());
         }
-    }   
+    }  */  
 
     override public void TakeDamage(int damage)
     {
@@ -164,6 +164,6 @@ public class Enemy : Agent
         {
             isDead = true;
         }
-    } */
+    }
 }
 
