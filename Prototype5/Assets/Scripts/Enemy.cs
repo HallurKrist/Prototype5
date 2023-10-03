@@ -23,16 +23,16 @@ public class Enemy : Agent
     GameObject attackHitbox;
     [SerializeField]
     public float delayBetweenAttacks = 8f;
-    
+
     private bool attackWaiting = false;
-    public   bool isDead = false;
+    public bool isDead = false;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private float timeRemaining;
     private bool timerIsRunning = true;
     public float durationOfFadingAnimationInSeconds = 1f;
-    public float durationOfDeathAnimationInSeconds = 1f;
+    public float durationOfDeathAnimationInSeconds = 3f;
 
     private void Start()
     {
@@ -47,12 +47,11 @@ public class Enemy : Agent
 
     private void Update()
     {
-        Fade();
+        // Fade();
         if (GetHealth() <= 0)
         {
             isDead = true;
         }
-
         if (isDead && !animator.GetBool("isDead"))
         {
             PlayDeathAnimation();
@@ -66,8 +65,6 @@ public class Enemy : Agent
     private void PlayDeathAnimation()
     {
         animator.SetBool("isDead", true);
-        Debug.Log(animator.GetBool("isDead"));
-        Debug.Log("gonna call animation delay");
         StartCoroutine(AnimationDeathDelay());
     }
 
@@ -134,7 +131,7 @@ public class Enemy : Agent
         // animator.SetFloat("velocityX", Mathf.Abs(velocity.x));
     }
 
-    
+
 
     private void Attack()
     {
@@ -145,7 +142,7 @@ public class Enemy : Agent
         } */
 
 
-        if (isAttacking) 
+        if (isAttacking)
         {
             StartCoroutine(AnimationAttackDelay());
             animator.SetBool("isAttacking", isAttacking);
@@ -158,7 +155,7 @@ public class Enemy : Agent
 
     IEnumerator AttackDelay()
     {
-        if (!attackWaiting) 
+        if (!attackWaiting)
         {
             isAttacking = true;
             attackWaiting = true;
@@ -176,7 +173,8 @@ public class Enemy : Agent
         animator.SetBool("isDead", false);
         Debug.Log("Change to endScreen");
         timerIsRunning = false;
-        SceneManager.LoadScene (sceneName:"EndScreen");
+        
+        SceneManager.LoadScene(sceneName: "EndScreen");
     }
 
     IEnumerator AnimationAttackDelay()
@@ -189,7 +187,7 @@ public class Enemy : Agent
     IEnumerator AnimationFadingDelay()
     {
         yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
-        SceneManager.LoadScene (sceneName:"StartScreen");
+        SceneManager.LoadScene(sceneName: "StartScreen");
     }
 
     /* private void OnDisable()
@@ -204,7 +202,7 @@ public class Enemy : Agent
         {
             TakeDamage(collision.gameObject.GetComponent<Agent>().GetDamage());
         }
-    }  */  
+    }  */
 
     override public void TakeDamage(int damage)
     {
