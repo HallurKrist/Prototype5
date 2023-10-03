@@ -220,6 +220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddf7d22952f16fd49bbd8d698015500e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+
+  MinFade: 0.25
+  FadeSpeed: 0.75
+
 --- !u!1001 &738180773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277,6 +281,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c80a5dbe2846104e8ea2755df0d229c, type: 3}
+
 --- !u!1 &975050570
 GameObject:
   m_ObjectHideFlags: 0
