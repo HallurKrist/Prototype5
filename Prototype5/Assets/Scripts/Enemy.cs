@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using MushroomGame;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public class Enemy : Agent
@@ -28,6 +29,10 @@ public class Enemy : Agent
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
+    private float timeRemaining;
+    private bool timerIsRunning = true;
+    public float durationOfFadingAnimationInSeconds = 1f;
+    public float durationOfDeathAnimationInSeconds = 1f;
 
     private void Start()
     {
@@ -36,16 +41,19 @@ public class Enemy : Agent
         playerAttack.Enable();
         animator = GetComponent<Animator>();
         playerTransform = GetComponent<Transform>();
+
+        timeRemaining = 60;
     }
 
     private void Update()
     {
+        Fade();
         if (GetHealth() <= 0)
         {
             isDead = true;
         }
 
-        if (isDead && !animator.GetBool("dead"))
+        if (isDead && !animator.GetBool("isDead"))
         {
             PlayDeathAnimation();
         }
@@ -57,7 +65,9 @@ public class Enemy : Agent
 
     private void PlayDeathAnimation()
     {
-        animator.SetBool("dead", true);
+        animator.SetBool("isDead", true);
+        Debug.Log("gonna call animation delay");
+        StartCoroutine(AnimationDeathDelay());
     }
 
 
@@ -65,6 +75,25 @@ public class Enemy : Agent
     {
         if (!isDead)
             Move();
+    }
+
+    private void Fade()
+    {
+        if (timerIsRunning)
+        {
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Time has run out!");
+                timeRemaining = 0;
+                timerIsRunning = false;
+                StartCoroutine(AnimationFadingDelay());
+                animator.SetBool("isFading", true);
+            }
+        }
     }
 
     private void Move()
@@ -115,13 +144,14 @@ public class Enemy : Agent
         } */
 
 
-
-        isAttacking = true;
-        StartCoroutine(AnimationAttackDelay());
-        animator.SetBool("isAttacking", isAttacking);
-        if (attackHitbox != null)
+        if (isAttacking) 
         {
-            attackHitbox.SetActive(animator.GetBool("isAttacking"));
+            StartCoroutine(AnimationAttackDelay());
+            animator.SetBool("isAttacking", isAttacking);
+            if (attackHitbox != null)
+            {
+                attackHitbox.SetActive(animator.GetBool("isAttacking"));
+            }
         }
     }
 
@@ -129,6 +159,7 @@ public class Enemy : Agent
     {
         if (!attackWaiting) 
         {
+            isAttacking = true;
             attackWaiting = true;
             yield return new WaitForSeconds(delayBetweenAttacks);
             attackWaiting = false;
@@ -136,11 +167,28 @@ public class Enemy : Agent
         }
     }
 
+    IEnumerator AnimationDeathDelay()
+    {
+        Debug.Log("in animation delay");
+        yield return new WaitForSeconds(durationOfDeathAnimationInSeconds);
+        Debug.Log("done waiting");
+        animator.SetBool("isDead", false);
+        Debug.Log("Change to endScreen");
+        timerIsRunning = false;
+        SceneManager.LoadScene (sceneName:"EndScreen");
+    }
+
     IEnumerator AnimationAttackDelay()
     {
-        yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
+        yield return new WaitForSeconds(durationOfFadingAnimationInSeconds);
         isAttacking = false;
         animator.SetBool("isAttacking", isAttacking);
+    }
+
+    IEnumerator AnimationFadingDelay()
+    {
+        yield return new WaitForSeconds(durationOfAttackAnimationInSeconds);
+        SceneManager.LoadScene (sceneName:"StartScreen");
     }
 
     /* private void OnDisable()
@@ -155,7 +203,7 @@ public class Enemy : Agent
         {
             TakeDamage(collision.gameObject.GetComponent<Agent>().GetDamage());
         }
-    }   
+    }  */  
 
     override public void TakeDamage(int damage)
     {
@@ -163,7 +211,8 @@ public class Enemy : Agent
         if (GetHealth() <= 0)
         {
             isDead = true;
+            isAttacking = false;
         }
-    } */
+    }
 }
 
