@@ -66,6 +66,7 @@ public class Enemy : Agent
     private void PlayDeathAnimation()
     {
         animator.SetBool("isDead", true);
+        Debug.Log(animator.GetBool("isDead"));
         Debug.Log("gonna call animation delay");
         StartCoroutine(AnimationDeathDelay());
     }
